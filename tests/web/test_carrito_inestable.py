@@ -1,10 +1,11 @@
-"""Desafío del Lab 4.2: esta prueba falla de forma intermitente.
+"""Desafío del Lab 4.2, resuelto.
 
-Encuentren por qué y corríjanla SIN agregar esperas fijas (time.sleep o wait_for_timeout)
-y SIN debilitar la aserción. Ejecútenla varias veces para comprobarlo:
-    pytest tests/web/test_carrito_inestable.py   (ejecútenla 4 o 5 veces)
+Causa: el resumen del carrito se actualiza de forma asíncrona (entre 0.3 y 1.5 s después
+del cambio). inner_text() lee el valor de ese instante, que todavía es el anterior.
+Solución: una aserción web-first (expect ... to_have_text) que reintenta hasta que el
+texto coincide o vence el tiempo. Sin esperas fijas y sin debilitar la aserción.
 """
-from playwright.sync_api import Page
+from playwright.sync_api import Page, expect
 
 from tests.web.conftest import iniciar_sesion
 
@@ -13,12 +14,11 @@ def test_cambiar_cantidad_actualiza_el_total(page: Page):
     iniciar_sesion(page, "ana.garcia@example.com", "Password123")
     page.goto("/productos/4")  # Teclado Mecánico Kappa, $1,299.00
     page.get_by_role("button", name="Agregar al carrito").click()
-    page.locator(".flash.ok").wait_for()
+    expect(page.locator(".flash.ok")).to_be_visible()
 
     page.goto("/carrito")
-    page.get_by_label("Cantidad de Teclado Mecánico Kappa").fill("2")
-    page.get_by_label("Cantidad de Teclado Mecánico Kappa").press("Tab")
-    page.locator(".line-total", has_text="$2,598.00").wait_for()
+    cantidad = page.get_by_label("Cantidad de Teclado Mecánico Kappa")
+    cantidad.fill("2")
+    cantidad.press("Tab")
 
-    total = page.locator("#sum-total").inner_text()
-    assert total == "$2,598.00"
+    expect(page.locator("#sum-total")).to_have_text("$2,598.00")
