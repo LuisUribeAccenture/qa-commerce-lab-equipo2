@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block page %}orders{% endblock %}
+{% block content %}
+<h1>Mis órdenes</h1>
+<table class="table" id="orders-table">
+  <thead><tr><th scope="col">Orden</th><th scope="col">Fecha</th><th scope="col">Total</th><th scope="col">Estado</th></tr></thead>
+  <tbody></tbody>
+</table>
+<p id="orders-empty" class="muted" hidden>Todavía no tienes órdenes.</p>
+{% endblock %}

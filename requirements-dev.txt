@@ -1,0 +1,9 @@
+-r requirements.txt
+pytest==9.2.0
+httpx==0.28.1
+requests==2.32.5
+playwright==1.64.1
+faker==40.44.0
+pytest-playwright==0.10.0
+jsonschema==4.26.0
+Appium-Python-Client==6.0.9

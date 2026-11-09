@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/cart_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="16dp"
+        android:text="@string/empty_cart"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/cart_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView android:id="@+id/cart_subtotal" android:layout_width="match_parent" android:layout_height="wrap_content" android:contentDescription="Subtotal" />
+    <TextView android:id="@+id/cart_discount" android:layout_width="match_parent" android:layout_height="wrap_content" android:contentDescription="Descuento" />
+    <TextView android:id="@+id/cart_shipping" android:layout_width="match_parent" android:layout_height="wrap_content" android:contentDescription="Envío" />
+    <TextView
+        android:id="@+id/cart_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="Total"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:textAllCaps="false"
+        android:id="@+id/cart_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/keep_shopping"
+        android:text="@string/keep_shopping" />
+</LinearLayout>

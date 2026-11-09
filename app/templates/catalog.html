@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block page %}catalog{% endblock %}
+{% block content %}
+<h1>Catálogo</h1>
+<form class="filters" id="filters" role="search">
+  <label>Buscar
+    <input type="search" name="search" id="search" placeholder="Nombre del producto">
+  </label>
+  <label>Categoría
+    <select name="category" id="category">
+      <option value="">Todas</option>
+    </select>
+  </label>
+  <label>Ordenar por
+    <select name="sort" id="sort">
+      <option value="">Relevancia</option>
+      <option value="price_asc">Precio: menor a mayor</option>
+      <option value="price_desc">Precio: mayor a menor</option>
+    </select>
+  </label>
+  <button type="submit">Buscar</button>
+</form>
+<p id="results-info" class="muted"></p>
+<section class="grid" id="product-list" aria-label="Productos"></section>
+<nav class="pager" aria-label="Paginación">
+  <button type="button" id="prev-page">Anterior</button>
+  <span id="page-info"></span>
+  <button type="button" id="next-page">Siguiente</button>
+</nav>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block page %}cart{% endblock %}
+{% block content %}
+<h1>Carrito</h1>
+<div class="cart-layout">
+  <section id="cart-items" aria-label="Productos en el carrito"></section>
+  <aside class="card summary" aria-label="Resumen de compra">
+    <h2>Resumen</h2>
+    <dl>
+      <dt>Subtotal</dt><dd id="sum-subtotal">$0.00</dd>
+      <dt>Descuento</dt><dd id="sum-discount">$0.00</dd>
+      <dt>Envío</dt><dd id="sum-shipping">$0.00</dd>
+      <dt class="total">Total</dt><dd class="total" id="sum-total">$0.00</dd>
+    </dl>
+    <form id="coupon-form" class="coupon">
+      <label for="coupon-code">Cupón</label>
+      <div class="row">
+        <input id="coupon-code" name="code" autocomplete="off">
+        <button type="submit">Aplicar</button>
+      </div>
+      <p class="error" id="coupon-error" role="alert"></p>
+      <p id="coupon-applied" hidden>Cupón <strong id="coupon-name"></strong> aplicado
+        <button type="button" class="link" id="remove-coupon">Quitar</button></p>
+    </form>
+    <a class="button" id="go-checkout" href="/checkout">Continuar al checkout</a>
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block page %}checkout{% endblock %}
+{% block content %}
+<h1>Checkout</h1>
+<div class="cart-layout">
+  <form class="card form" id="address-form" novalidate>
+    <h2>Dirección de envío</h2>
+    <label for="addr-street">Calle y número</label>
+    <input id="addr-street" name="street" autocomplete="street-address">
+    <p class="error" data-error-for="street"></p>
+    <label for="addr-neighborhood">Colonia</label>
+    <input id="addr-neighborhood" name="neighborhood">
+    <p class="error" data-error-for="neighborhood"></p>
+    <label for="addr-city">Ciudad</label>
+    <input id="addr-city" name="city" autocomplete="address-level2">
+    <p class="error" data-error-for="city"></p>
+    <label for="addr-state">Estado</label>
+    <input id="addr-state" name="state" autocomplete="address-level1">
+    <p class="error" data-error-for="state"></p>
+    <label for="addr-postal">Código postal</label>
+    <input id="addr-postal" name="postal_code" inputmode="numeric" autocomplete="postal-code">
+    <p class="error" data-error-for="postal_code"></p>
+    <label for="addr-phone">Teléfono de contacto</label>
+    <input id="addr-phone" name="phone" inputmode="tel" autocomplete="tel">
+    <p class="error" data-error-for="phone"></p>
+    <label class="check"><input type="checkbox" name="save_address" id="addr-save"> Guardar esta dirección para futuras compras</label>
+    <p class="error" id="checkout-error" role="alert"></p>
+    <button type="submit">Confirmar y pagar</button>
+  </form>
+  <aside class="card summary" aria-label="Resumen de la orden">
+    <h2>Resumen</h2>
+    <ul id="checkout-items" class="plain"></ul>
+    <dl>
+      <dt>Subtotal</dt><dd id="co-subtotal"></dd>
+      <dt>Descuento</dt><dd id="co-discount"></dd>
+      <dt>Envío</dt><dd id="co-shipping"></dd>
+      <dt class="total">Total</dt><dd class="total" id="co-total"></dd>
+    </dl>
+  </aside>
+</div>
+{% endblock %}

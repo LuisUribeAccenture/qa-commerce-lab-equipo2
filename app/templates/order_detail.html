@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block page %}order{% endblock %}
+{% block content %}
+<h1>Orden #{{ order_id }}</h1>
+<section class="card" id="order" data-order-id="{{ order_id }}">
+  <p class="muted">Cargando orden…</p>
+</section>
+{% endblock %}

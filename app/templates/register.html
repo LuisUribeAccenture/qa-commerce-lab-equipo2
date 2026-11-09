@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block page %}register{% endblock %}
+{% block content %}
+<h1>Crear cuenta</h1>
+<form class="card form" id="register-form" novalidate>
+  <label for="reg-name">Nombre completo</label>
+  <input id="reg-name" name="name" autocomplete="name">
+  <p class="error" data-error-for="name"></p>
+
+  <label for="reg-email">Correo electrónico</label>
+  <input id="reg-email" name="email" type="email" autocomplete="email">
+  <p class="error" data-error-for="email"></p>
+
+  <label for="reg-password">Contraseña</label>
+  <input id="reg-password" name="password" type="password" autocomplete="new-password">
+  <p class="error" data-error-for="password"></p>
+
+  <label for="reg-password-confirm">Confirmar contraseña</label>
+  <input id="reg-password-confirm" name="password_confirm" type="password" autocomplete="new-password">
+  <p class="error" data-error-for="password_confirm"></p>
+
+  <label for="reg-birth">Fecha de nacimiento</label>
+  <input id="reg-birth" name="birth_date" type="date">
+  <p class="error" data-error-for="birth_date"></p>
+
+  <p class="error" id="register-error" role="alert"></p>
+  <button type="submit">Crear cuenta</button>
+</form>
+{% endblock %}

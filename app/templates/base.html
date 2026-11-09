@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }} · QA Commerce Lab</title>
+  <link rel="icon" href="/static/img/1.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body data-page="{% block page %}{% endblock %}">
+  <header class="topbar">
+    <a class="brand" href="/">QA Commerce Lab</a>
+    <nav aria-label="Principal">
+      <a href="/">Catálogo</a>
+      <a href="/ordenes" class="auth-only" hidden>Mis órdenes</a>
+      <a href="/carrito" class="cart-link auth-only" hidden>Carrito <span class="badge" id="cart-count" aria-label="Unidades en el carrito">0</span></a>
+      <a href="/login" class="guest-only">Iniciar sesión</a>
+      <a href="/registro" class="guest-only">Crear cuenta</a>
+      <span class="auth-only user-name" id="user-name" hidden></span>
+      <button type="button" class="link auth-only" id="logout" hidden>Cerrar sesión</button>
+    </nav>
+  </header>
+  <main>
+    <div id="flash" role="status" aria-live="polite"></div>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>Sistema ficticio para capacitación · Todos los datos son ficticios</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

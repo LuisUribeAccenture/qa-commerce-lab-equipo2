@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QA Commerce Lab</string>
+    <string name="catalog_title">Catálogo</string>
+    <string name="cart_title">Carrito</string>
+    <string name="server">Servidor</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Entrar</string>
+    <string name="search_hint">Buscar producto</string>
+    <string name="search">Buscar</string>
+    <string name="add">Agregar</string>
+    <string name="logout">Salir</string>
+    <string name="keep_shopping">Seguir comprando</string>
+    <string name="out_of_stock">Agotado</string>
+    <string name="empty_cart">Tu carrito está vacío</string>
+</resources>

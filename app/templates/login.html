@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block page %}login{% endblock %}
+{% block content %}
+<h1>Iniciar sesión</h1>
+<form class="card form" id="login-form" novalidate>
+  <label for="login-email">Correo electrónico</label>
+  <input id="login-email" name="email" type="email" autocomplete="username">
+  <label for="login-password">Contraseña</label>
+  <input id="login-password" name="password" type="password" autocomplete="current-password">
+  <p class="error" id="login-error" role="alert"></p>
+  <button type="submit">Entrar</button>
+  <p class="muted">¿No tienes cuenta? <a href="/registro">Crear cuenta</a></p>
+</form>
+{% endblock %}

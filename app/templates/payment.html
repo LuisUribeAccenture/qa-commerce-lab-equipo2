@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block page %}payment{% endblock %}
+{% block content %}
+<h1>Pago de la orden #{{ order_id }}</h1>
+<div class="cart-layout" id="payment" data-order-id="{{ order_id }}">
+  <form class="card form" id="payment-form" novalidate>
+    <label for="card-holder">Nombre del titular</label>
+    <input id="card-holder" name="card_holder" autocomplete="cc-name">
+    <p class="error" data-error-for="card_holder"></p>
+    <label for="card-number">Número de tarjeta</label>
+    <input id="card-number" name="card_number" inputmode="numeric" autocomplete="cc-number">
+    <p class="error" data-error-for="card_number"></p>
+    <label for="card-expiry">Vencimiento (MM/AA)</label>
+    <input id="card-expiry" name="expiry" placeholder="MM/AA" autocomplete="cc-exp">
+    <p class="error" data-error-for="expiry"></p>
+    <label for="card-cvv">CVV</label>
+    <input id="card-cvv" name="cvv" inputmode="numeric" autocomplete="cc-csc">
+    <p class="error" data-error-for="cvv"></p>
+    <p class="error" id="payment-error" role="alert"></p>
+    <button type="submit">Pagar</button>
+  </form>
+  <aside class="card summary">
+    <h2>Total a pagar</h2>
+    <p class="big" id="pay-total"></p>
+  </aside>
+</div>
+<section class="card confirmation" id="confirmation" hidden>
+  <h2>¡Gracias por tu compra!</h2>
+  <p>Tu número de orden es <strong id="confirm-order"></strong>.</p>
+  <p>Pagaste con la tarjeta terminada en <strong id="confirm-last4"></strong>.</p>
+  <a class="button" href="/ordenes">Ver mis órdenes</a>
+</section>
+{% endblock %}
