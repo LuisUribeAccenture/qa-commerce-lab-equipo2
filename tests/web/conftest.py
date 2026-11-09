@@ -1,61 +1,16 @@
 """Fixtures para las pruebas web con Playwright.
 
-- servidor: levanta QA Commerce Lab en un puerto libre, con su propia base de datos.
+- servidor (en tests/conftest.py): la app corriendo en un puerto libre, con su propia base de datos.
 - base_url: lo usa Playwright para que page.goto("/login") vaya al servidor de pruebas.
 - reiniciar_app (automático): deja los datos base antes de CADA prueba (aislamiento).
 - cliente_sintetico: crea un cliente y productos con el generador del Lab 3.
 
 Ejecutar:  pytest tests/web            (agrega --headed para ver el navegador)
 """
-import json
-import os
-import socket
-import subprocess
-import sys
-import tempfile
-import time
-import urllib.request
-from pathlib import Path
-
 import pytest
 
 from data.generador import generar_dataset
-
-ROOT = Path(__file__).resolve().parents[2]
-
-
-def _puerto_libre() -> int:
-    with socket.socket() as s:
-        s.bind(("127.0.0.1", 0))
-        return s.getsockname()[1]
-
-
-def _post(url: str, data: dict | None = None) -> dict:
-    req = urllib.request.Request(url, method="POST", data=json.dumps(data or {}).encode(),
-                                 headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=10) as res:
-        return json.loads(res.read())
-
-
-@pytest.fixture(scope="session")
-def servidor():
-    puerto = _puerto_libre()
-    env = {**os.environ, "QACL_DB": str(Path(tempfile.gettempdir()) / f"qa_commerce_web_{puerto}.db")}
-    proc = subprocess.Popen([sys.executable, "-m", "uvicorn", "app.main:app", "--port", str(puerto)],
-                            cwd=ROOT, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    url = f"http://127.0.0.1:{puerto}"
-    for _ in range(50):
-        try:
-            urllib.request.urlopen(f"{url}/api/health", timeout=1)
-            break
-        except OSError:
-            time.sleep(0.2)
-    else:
-        proc.terminate()
-        pytest.fail("La aplicación no arrancó")
-    yield url
-    proc.terminate()
-    proc.wait(timeout=10)
+from tests.conftest import _post
 
 
 @pytest.fixture(scope="session")
