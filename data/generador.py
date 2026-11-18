@@ -34,7 +34,24 @@ def generar_clientes(n: int, seed: int = 42, fecha_ref: date = FECHA_REFERENCIA)
     - password: cumple RN-02 (8 a 64 caracteres, al menos una letra y un número)
     - birth_date: AAAA-MM-DD, mayor de edad a fecha_ref (RN-03)
     """
-    raise NotImplementedError
+    fake, rng = _faker(seed)
+    clientes = []
+    for i in range(max(0, n)):
+        nombre = fake.name()
+        email = f"cliente{i + 1}_{rng.randrange(10**9):09d}@{DOMINIO}"
+        password = f"Qa{rng.randrange(10**12):012d}{rng.choice('ABCDEFGHJKLMNPQRSTUVWXYZ')}"
+        nacimiento = date(
+            fecha_ref.year - rng.randint(19, 75),
+            rng.randint(1, 12),
+            rng.randint(1, 28),
+        )
+        clientes.append({
+            "name": nombre,
+            "email": email,
+            "password": password,
+            "birth_date": nacimiento.isoformat(),
+        })
+    return clientes
 
 
 def generar_productos(n: int, seed: int = 42) -> list[dict]:
@@ -44,7 +61,27 @@ def generar_productos(n: int, seed: int = 42) -> list[dict]:
     - category: una de CATEGORIAS
     - stock: incluye casos de agotado (0), últimas unidades (1 a 5) y disponible (más de 5)
     """
-    raise NotImplementedError
+    fake, rng = _faker(seed)
+    productos = []
+    for i in range(max(0, n)):
+        categoria = rng.choice(CATEGORIAS)
+        # Alternar los tres escenarios garantiza cobertura incluso con semillas distintas.
+        tipo_stock = i % 3
+        if tipo_stock == 0:
+            stock = 0
+        elif tipo_stock == 1:
+            stock = rng.randint(1, 5)
+        else:
+            stock = rng.randint(6, 100)
+        productos.append({
+            "name": f"{categoria} {fake.word().capitalize()} {i + 1}",
+            "description": fake.sentence(),
+            "price": rng.randint(1, 500000) / 100,
+            "category": categoria,
+            "stock": stock,
+            "active": rng.choice([True, True, True, False]),
+        })
+    return productos
 
 
 def generar_dataset(seed: int = 42, clientes: int = 10, productos: int = 20) -> dict:
