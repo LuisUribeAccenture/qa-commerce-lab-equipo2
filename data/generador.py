@@ -12,6 +12,7 @@ Reglas:
 Pueden pedir ayuda a Codex, pero revisen lo que genere: ¿respeta las reglas? ¿es reproducible?
 """
 import random
+from calendar import monthrange
 from datetime import date
 
 from faker import Faker
@@ -34,17 +35,24 @@ def generar_clientes(n: int, seed: int = 42, fecha_ref: date = FECHA_REFERENCIA)
     - password: cumple RN-02 (8 a 64 caracteres, al menos una letra y un número)
     - birth_date: AAAA-MM-DD, mayor de edad a fecha_ref (RN-03)
     """
+    if n <= 0:
+        return []
+    if fecha_ref.year <= 18:
+        raise ValueError("La fecha de referencia debe permitir una edad de al menos 18 años")
+
+    anio_limite = fecha_ref.year - 18
+    ultimo_dia = monthrange(anio_limite, fecha_ref.month)[1]
+    fecha_limite = date(anio_limite, fecha_ref.month, min(fecha_ref.day, ultimo_dia))
+    primer_dia = date(max(1, fecha_ref.year - 75), 1, 1).toordinal()
+    dia_limite = fecha_limite.toordinal()
+
     fake, rng = _faker(seed)
     clientes = []
-    for i in range(max(0, n)):
+    for i in range(n):
         nombre = fake.name()
         email = f"cliente{i + 1}_{rng.randrange(10**9):09d}@{DOMINIO}"
         password = f"Qa{rng.randrange(10**12):012d}{rng.choice('ABCDEFGHJKLMNPQRSTUVWXYZ')}"
-        nacimiento = date(
-            fecha_ref.year - rng.randint(19, 75),
-            rng.randint(1, 12),
-            rng.randint(1, 28),
-        )
+        nacimiento = date.fromordinal(rng.randint(primer_dia, dia_limite))
         clientes.append({
             "name": nombre,
             "email": email,
@@ -52,6 +60,15 @@ def generar_clientes(n: int, seed: int = 42, fecha_ref: date = FECHA_REFERENCIA)
             "birth_date": nacimiento.isoformat(),
         })
     return clientes
+
+
+def generar_invalidos(seed: int) -> list[dict]:
+    """Genera tres clientes con un único campo inválido en cada caso, a FECHA_REFERENCIA."""
+    sin_numero, menor, correo_mal_formado = generar_clientes(3, seed)
+    sin_numero["password"] = "SoloLetras"
+    menor["birth_date"] = FECHA_REFERENCIA.isoformat()
+    correo_mal_formado["email"] = correo_mal_formado["email"].replace("@", ".")
+    return [sin_numero, menor, correo_mal_formado]
 
 
 def generar_productos(n: int, seed: int = 42) -> list[dict]:

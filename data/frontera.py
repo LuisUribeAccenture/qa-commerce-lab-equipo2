@@ -21,9 +21,33 @@ def contrasenas() -> list[tuple[str, bool, str]]:
     ]
 
 
-# TODO: agreguen aquí las funciones de su área. Ideas:
-#   Área A: fechas_nacimiento() (RN-03)
-#   Área B: busquedas() (CA-04.1), paginas() (CA-03.2)
-#   Área C: cantidades() (RN-05), subtotales_envio() (RN-08)
-#   Área D: codigos_postales() y telefonos() (CA-10.2), tarjetas() (CA-11.2)
-#   Área E: horas_desde_pago() (RN-09)
+def paginas() -> list[tuple[tuple[int, int, tuple[int, ...]], bool, str]]:
+    """CA-03.2: ((productos activos, página inicial, tamaños esperados), petición válida, descripción)."""
+    return [
+        ((0, 1, (0,)), True, "sin productos activos"),
+        ((19, 1, (19,)), True, "19 productos"),
+        ((20, 1, (20,)), True, "20 productos"),
+        ((21, 1, (20, 1)), True, "21 productos"),
+        ((41, 1, (20, 20, 1)), True, "41 productos"),
+        ((21, 0, ()), False, "página anterior a la primera"),
+    ]
+
+
+def existencias() -> list[tuple[int, bool, str]]:
+    """CA-05.2: (existencias, debe mostrarse el aviso, descripción)."""
+    return [
+        (0, True, "0 unidades"),
+        (1, True, "1 unidad"),
+        (4, True, "4 unidades"),
+        (5, True, "5 unidades"),
+        (6, False, "6 unidades"),
+    ]
+
+
+def busquedas() -> list[tuple[str, bool, str]]:
+    """CA-04.1: (consulta, hay coincidencia por nombre, descripción)."""
+    return [
+        ("Taza Frontera B", True, "nombre exacto"),
+        ("Vaso Frontera B", False, "nombre inexistente"),
+        ("Cerámica Frontera B", False, "texto solo en la descripción"),
+    ]
