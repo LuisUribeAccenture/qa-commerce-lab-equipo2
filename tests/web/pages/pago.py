@@ -20,3 +20,4 @@ class PagoPage:
         self._vencimiento.fill(vencimiento)
         self._cvv.fill(cvv)
         self._pagar.click()
+

@@ -21,3 +21,4 @@ class CarritoPage:
 
     def continuar_al_checkout(self) -> None:
         self._continuar.click()
+

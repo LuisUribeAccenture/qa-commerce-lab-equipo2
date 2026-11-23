@@ -28,3 +28,4 @@ class CheckoutPage:
         self._telefono.fill(telefono)
         self._confirmar.click()
         self._page.wait_for_url("**/pago/*")
+

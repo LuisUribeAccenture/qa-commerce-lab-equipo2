@@ -57,3 +57,4 @@ def test_cupon_bienvenida_en_carrito(page: Page) -> None:
 
     expect(carrito.descuento).to_have_text("-$259.80", use_inner_text=True)
     expect(carrito.total).to_have_text("$2,338.20", use_inner_text=True)
+

@@ -21,3 +21,4 @@ description: Refactoriza pruebas web existentes de pytest y Playwright al patró
 
 1. Ejecuta por separado la suite original y la refactorizada con condiciones comparables. Registra los comandos, los resultados y las duraciones de ambas. Comprueba que el mapa cubra todas las aserciones originales.
 2. Propón retirar la suite original solo si ambas ejecuciones pasan y la equivalencia está verificada. Si queda algún fallo o alguna aserción sin equivalencia, indícalo junto con la evidencia. Conserva la suite original hasta que exista una autorización explícita para retirarla.
+

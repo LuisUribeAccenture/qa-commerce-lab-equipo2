@@ -9,3 +9,4 @@ class LoginPage:
 
     def iniciar_sesion(self, correo: str, contrasena: str) -> None:
         iniciar_sesion(self._page, correo, contrasena)
+

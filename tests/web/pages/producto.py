@@ -15,3 +15,4 @@ class ProductoPage:
         self._cantidad.fill(str(cantidad))
         self._agregar.click()
         expect(self._aviso).to_have_text("Producto agregado al carrito")
+
