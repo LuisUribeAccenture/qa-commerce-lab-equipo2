@@ -1,0 +1,60 @@
+titulo: Revisión de las pruebas de API del área B
+area: Catálogo
+archivo_pruebas: tests/api/test_area_b.py
+requisitos: docs/requisitos.md
+contrato: http://localhost:8000/openapi.json
+
+revision:
+  - pregunta: ¿Hay pruebas que solo verifican status_code == 200?
+    respuesta: >-
+      Todas las pruebas con respuesta 200 verifican una regla de negocio o un
+      resultado esperado, como los nombres de las categorías, el tamaño de
+      página o la disponibilidad del producto.
+    referencias: ['§4.1', CA-03.2, CA-05.1, CA-05.2]
+
+  - pregunta: ¿Algún valor esperado se copió de la respuesta?
+    hallazgo: >-
+      El tamaño de la segunda página se calculaba con el total informado por la
+      API. El orden por precio se comprobaba ordenando los precios recibidos.
+    correccion: >-
+      Se usaron los datos de app/seed.py como oráculo independiente. Se esperan
+      38 productos activos en páginas de 20 y 18, y se comparan los nombres y
+      precios exactos en orden ascendente y descendente.
+    referencias: [CA-03.2, CA-03.4, CA-04.3, app/seed.py]
+
+  - pregunta: ¿Validan el contrato con validar()?
+    respuesta: >-
+      Se usa validar() para las respuestas exitosas y los errores 404 y 422.
+      Para categorías también se comprueba que la respuesta sea una lista
+      y se valida cada elemento como Category.
+    esquemas: [Category, ProductPage, ProductOut, ErrorOut, HTTPValidationError]
+    referencias: [tests/api/contrato.py, OpenAPI]
+
+  - pregunta: ¿Hay al menos dos casos negativos?
+    respuesta: >-
+      Hay cinco casos con error HTTP y dos búsquedas sin resultados. Consultar
+      el catálogo sin sesión es válido porque se permite el acceso a visitantes.
+    referencias: [HU-03, CA-03.4, CA-04.5, OpenAPI]
+    casos:
+      - {caso: Página 0, estado_esperado: 422}
+      - {caso: Orden inválido, estado_esperado: 422}
+      - {caso: ID de producto no entero, estado_esperado: 422}
+      - {caso: Producto inexistente, estado_esperado: 404}
+      - {caso: Detalle de producto inactivo, estado_esperado: 404}
+      - {caso: Búsqueda sin coincidencias, estado_esperado: 200, items_esperados: []}
+      - {caso: Búsqueda de producto inactivo, estado_esperado: 200, items_esperados: []}
+
+  - pregunta: ¿Revisan los efectos secundarios?
+    respuesta: >-
+      Se agregó una prueba que confirma que el Teclado Mecánico Kappa conserva
+      las 35 unidades definidas en los datos base antes y después de consultar
+      el catálogo. El descuento de existencias al pagar corresponde a Checkout
+      y está definido en CA-11.4.
+    prueba: test_consultar_catalogo_no_descuenta_existencias
+    referencias: [CA-05.1, CA-11.4, app/seed.py]
+
+verificacion:
+  comando: pytest tests/api -v
+  aprobadas: 16
+  fallidas: 0
+  duracion_segundos: 8.37
